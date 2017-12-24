@@ -3310,7 +3310,7 @@ fbdev_outdev_deps="linux_fb_h"
 gdigrab_indev_deps="CreateDIBSection"
 gdigrab_indev_extralibs="-lgdi32"
 gdigrab_indev_select="bmp_decoder"
-mondup_indev_deps="IDXGIOutput1_DuplicateOutput"
+mondup_indev_deps="DXGI_OUTDUPL_DESC"
 mondup_indev_extralibs="-ldxgi -ld3d11"
 # mondup_indev_select="bmp_decoder"
 iec61883_indev_deps="libiec61883"
@@ -6444,7 +6444,8 @@ if enabled libxcb; then
 fi
 
 check_func_headers "windows.h" CreateDIBSection "$gdigrab_indev_extralibs"
-check_func_headers "dxgi1_2.h" IDXGIOutput1_DuplicateOutput "$mondup_indev_extralibs"
+# check_func_headers "dxgi1_2.h" IDXGIOutput1_DuplicateOutput "$mondup_indev_extralibs"
+check_type "dxgi1_2.h" DXGI_OUTDUPL_DESC "$mondup_indev_extralibs"
 
 # d3d11va requires linking directly to dxgi and d3d11 if not building for
 # the desktop api partition
