@@ -1068,6 +1068,7 @@ static void draw_mouse(AVFormatContext *s1, uint32_t *target_pixels) {
 
     int i_y, i_x;
     int i_w = mondup_state->out_width;
+    int i_h = mondup_state->out_height;
 
 
     int pitch = mondup_state->mouse_shape.Pitch;
@@ -1078,7 +1079,7 @@ static void draw_mouse(AVFormatContext *s1, uint32_t *target_pixels) {
         for (int p_y = 0; p_y < pointer_h/2; ++p_y) {
             uint8_t bit_mask = 0x80; // 0b10000000
             i_y = mondup_state->mouse_y + p_y;
-            if (i_y < 0 || i_y >= i_w) {
+            if (i_y < 0 || i_y >= i_h) {
                 continue;
             }
 
@@ -1109,7 +1110,7 @@ static void draw_mouse(AVFormatContext *s1, uint32_t *target_pixels) {
 
         for (int p_y = 0; p_y < pointer_h; ++p_y) {
             i_y = mondup_state->mouse_y + p_y;
-            if (i_y < 0 || i_y >= i_w) {
+            if (i_y < 0 || i_y >= i_h) {
                 continue;
             }
 
@@ -1129,7 +1130,7 @@ static void draw_mouse(AVFormatContext *s1, uint32_t *target_pixels) {
 
         for (int p_y = 0; p_y < pointer_h; ++p_y) {
             i_y = mondup_state->mouse_y + p_y;
-            if (i_y < 0 || i_y >= i_w) {
+            if (i_y < 0 || i_y >= i_h) {
                 continue;
             }
 
