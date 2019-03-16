@@ -18,14 +18,23 @@
 #include <dxgi1_2.h>
 
 #define MAX_OUTPUTS 16
-#define MAX_OUTPUTS 16
 
-/** TODO
-rewrite mondup to use multiple regions (for multiple monitors)
-handle dpi? may not be needed (AFAIK)
-handle rotation! Will be a pain, need D3D rendering
-draw mouse etc
+/*
+Current pitfalls:
+    DPI is not handled at all (should it?)
+    rotation not handled (requires proper D3D rendering or slow-ish? transposing)
+Todo:
+    apparently I commented out dirty/moved rect handling (in mondup_get_frame() ) and copy the whole area? Go back?
+    rename to ddapigrab or such
+    cleanup, name/organize functions properly, remove debug stuff, etc etc etc
+    comments
+    possibly handle errors while capturing (ie. try to recreate the capture context?)
+
+    rtbufsize and threading? But 1080p60 RGBA is too far for the little gain
+
+https://docs.microsoft.com/en-us/windows/desktop/direct3ddxgi/desktop-dup-api
 */
+
 struct capture_region {
     IDXGIOutput1 *dxgi_output;
     DXGI_OUTPUT_DESC description;
@@ -862,12 +871,12 @@ static int mondup_read_header(AVFormatContext *s1) {
 
 
         cap_reg->src_x = overlap.left - mon_info->description.DesktopCoordinates.left;
-        cap_reg->src_y = overlap.top - mon_info->description.DesktopCoordinates.top;
+        cap_reg->src_y = overlap.top  - mon_info->description.DesktopCoordinates.top;
 
         cap_reg->dst_x = overlap.left - target_rect.left;
-        cap_reg->dst_y = overlap.top - target_rect.top;
+        cap_reg->dst_y = overlap.top  - target_rect.top;
 
-        cap_reg->width = (overlap.right - overlap.left);
+        cap_reg->width  = (overlap.right  - overlap.left);
         cap_reg->height = (overlap.bottom - overlap.top);
 
         memcpy(&cap_reg->description, &mon_info->description, sizeof(DXGI_OUTPUT_DESC));
